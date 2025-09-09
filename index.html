@@ -1,105 +1,202 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .card img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        .card h3 {
-            margin: 10px 0 5px;
-            color: #34495e;
-        }
-        .card p {
-            font-size: 14px;
-            color: #666;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NTH - Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/5d9b9e9b9b.js" crossorigin="anonymous"></script>
+
+  <style>
+    /* --- Général --- */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      background: linear-gradient(-45deg, #1e3c72, #2a5298, #6a11cb, #2575fc);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      transition: background 0.3s, color 0.3s;
+    }
+    @keyframes gradientBG { 0% {background-position:0% 50%} 50% {background-position:100% 50%} 100% {background-position:0% 50%} }
+
+    /* --- Hero Section --- */
+    .hero {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .hero h1 { font-size: 50px; margin-bottom: 15px; }
+    .hero .highlight { color: #25D366; }
+    .hero p { font-size: 20px; margin-bottom: 30px; }
+    .btn-hero {
+      display: inline-block; padding: 15px 30px; background: #25D366; color: white;
+      font-size: 18px; border-radius: 8px; text-decoration: none; transition: 0.3s;
+    }
+    .btn-hero:hover { background: #128C7E; }
+
+    /* --- Typing animation --- */
+    .typing { display: inline-block; border-right: 3px solid white; white-space: nowrap; overflow: hidden;
+      animation: typing 4s steps(30,end), blink 0.7s infinite; }
+    @keyframes typing { from { width: 0; } to { width: 100%; } }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    /* --- Sections --- */
+    .bio, .skills, .timeline-item { max-width: 700px; margin: 40px auto; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 12px; }
+    .bio { text-align: center; font-size: 18px; }
+    .skills h2, .timeline h2 { text-align: center; margin-bottom: 20px; }
+
+    /* --- Compétences --- */
+    .skill { margin-bottom: 15px; }
+    .skill-name { font-weight: bold; margin-bottom: 5px; }
+    .skill-bar { height: 15px; background: rgba(255,255,255,0.2); border-radius: 8px; overflow: hidden; }
+    .skill-level { height: 100%; background: #25D366; width: 0; transition: width 2s ease; }
+
+    /* --- Timeline --- */
+    .timeline-item { border-left: 4px solid #25D366; margin-bottom: 20px; }
+    .timeline-item h3 { margin: 0; font-size: 18px; }
+    .timeline-item span { font-size: 14px; color: #ddd; }
+
+    /* --- Galerie --- */
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 20px; padding: 20px; }
+    .gallery img { width: 100%; border-radius: 12px; cursor: pointer; transition: transform 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .gallery img:hover { transform: scale(1.05); }
+
+    /* --- Lightbox --- */
+    .lightbox { display: none; position: fixed; z-index:999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.9); justify-content:center; align-items:center; }
+    .lightbox img { max-width:90%; max-height:90%; border-radius:12px; }
+    .close { position:absolute; top:20px; right:40px; font-size:40px; color:white; cursor:pointer; }
+
+    /* --- Contact --- */
+    .contact { text-align:center; margin:30px 0; }
+    .contact a { background:#25D366; color:white; text-decoration:none; padding:12px 25px; border-radius:8px; font-size:18px; font-weight:bold; transition:0.3s; display:inline-block; }
+    .contact a:hover { background:#128C7E; }
+
+    /* --- Bouton retour en haut --- */
+    #backToTop { display:none; position:fixed; bottom:30px; right:30px; z-index:1000; background:#000; color:#fff; padding:12px 16px; border-radius:50%; font-size:20px; cursor:pointer; transition:0.3s; }
+    #backToTop:hover { background:#444; }
+
+    /* --- Toggle mode sombre/clair --- */
+    .toggle-btn { position:fixed; top:15px; right:15px; padding:10px 15px; background:rgba(255,255,255,0.2); border:none; border-radius:8px; cursor:pointer; font-weight:bold; color:#fff; transition:0.3s; }
+    .toggle-btn:hover { background:rgba(255,255,255,0.4); }
+    body.light { background:#f4f4f4; color:#222; }
+    body.light .bio, body.light .skills, body.light .timeline-item { background: rgba(255,255,255,0.8); color:#222; }
+
+    /* --- Scroll reveal --- */
+    .reveal { opacity:0; transform:translateY(30px); transition: all 0.8s ease; }
+    .reveal.active { opacity:1; transform:translateY(0); }
+  </style>
 </head>
 <body>
-    <h1>Mon Portfolio Graphique</h1>
-    <p>Voici quelques-unes de mes créations en graphisme 🎨</p>
-    
-    <div class="gallery">
-        <div class="card">
-            <img src="0422a167-f210-4180-9846-4bcba229a75b.jpeg" alt="Création 1">
-            <h3>Création 1</h3>
-            <p>Un projet où j’ai exploré les couleurs et les formes.</p>
-        </div>
-        <div class="card">
-            <img src="07d4d91b-1a1c-4450-b894-b1312a74e6d9.jpeg" alt="Création 2">
-            <h3>Création 2</h3>
-            <p>Un design inspiré par la nature et la simplicité.</p>
-        </div>
-        <div class="card">
-            <img src="0ff72187-fdbf-432c-8dc9-a9ef90ce3a0a.jpeg" alt="Création 3">
-            <h3>Création 3</h3>
-            <p>Un travail autour du contraste et de l’équilibre.</p>
-        </div>
-        <div class="card">
-            <img src="29d28264-3260-471c-aa20-cbfe2bc2cc3d.jpeg" alt="Création 4">
-            <h3>Création 4</h3>
-            <p>Expérimentation avec des textures graphiques.</p>
-        </div>
-        <div class="card">
-            <img src="35ec99a3-c54e-40b3-b76e-fa7858811941.jpeg" alt="Création 5">
-            <h3>Création 5</h3>
-            <p>Une composition moderne avec des lignes géométriques.</p>
-        </div>
-        <div class="card">
-            <img src="3bb1696c-da71-41c6-94aa-e58dc6531ddb.jpeg" alt="Création 6">
-            <h3>Création 6</h3>
-            <p>Projet d’expérimentation visuelle minimaliste.</p>
-        </div>
-        <div class="card">
-            <img src="42974c51-57c5-4591-afd5-426179fb4cce.jpeg" alt="Création 7">
-            <h3>Création 7</h3>
-            <p>Exploration de la typographie et du design moderne.</p>
-        </div>
-        <div class="card">
-            <img src="4c426bf5-eec3-4c2e-8a73-4a4dcbb578bb.jpeg" alt="Création 8">
-            <h3>Création 8</h3>
-            <p>Un visuel avec des effets de profondeur.</p>
-        </div>
-        <div class="card">
-            <img src="84560663-007d-452e-8c63-6e6238117078.jpeg" alt="Création 9">
-            <h3>Création 9</h3>
-            <p>Un projet coloré inspiré par l’art abstrait.</p>
-        </div>
-        <div class="card">
-            <img src="ff3d8a0d-2c5e-41bd-86a0-517f81370948.jpeg" alt="Création 10">
-            <h3>Création 10</h3>
-            <p>Design final explorant la lumière et les ombres.</p>
-        </div>
-    </div>
+
+<!-- Mode sombre/clair -->
+<button class="toggle-btn" onclick="toggleMode()">☀️/🌙</button>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Bienvenue, je suis <span class="highlight">NTH</span></h1>
+    <p>Jeune passionné de graphisme 🎨</p>
+    <a href="#bio" class="btn-hero" onclick="scrollToSection(event,'bio')">Découvrir mon portfolio</a>
+  </div>
+</section>
+
+<!-- Bio -->
+<div class="bio reveal" id="bio">
+  <p>J’aime le graphisme car ça divertit et en même temps ça peut devenir un énorme travail… mais voilà en résumé ✨</p>
+</div>
+
+<!-- Compétences -->
+<div class="skills reveal">
+  <h2>Compétences</h2>
+  <div class="skill"><div class="skill-name">Ibis Paint X</div><div class="skill-bar"><div class="skill-level" style="width:80%"></div></div></div>
+  <div class="skill"><div class="skill-name">Photoshop</div><div class="skill-bar"><div class="skill-level" style="width:60%"></div></div></div>
+</div>
+
+<!-- Timeline -->
+<div class="timeline reveal">
+  <h2>Mon Parcours</h2>
+  <div class="timeline-item"><h3>2023 - Début en graphisme</h3><span>Découverte et premiers dessins sur Ibis Paint X</span></div>
+  <div class="timeline-item"><h3>2024 - Approfondissement</h3><span>Exploration de Photoshop et création de projets personnels</span></div>
+  <div class="timeline-item"><h3>2025 - Objectif stage</h3><span>À la recherche d’un stage de 4ème dans le domaine du graphisme</span></div>
+</div>
+
+<!-- Galerie -->
+<div class="gallery reveal">
+  <img src="0422a167-f210-4180-9846-4bcba229a75b.jpeg" alt="Création 1">
+  <img src="07d4d91b-1a1c-4450-b894-b1312a74e6d9.jpeg" alt="Création 2">
+  <img src="0ff72187-fdbf-432c-8dc9-a9ef90ce3a0a.jpeg" alt="Création 3">
+  <img src="29d28264-3260-471c-aa20-cbfe2bc2cc3d.jpeg" alt="Création 4">
+  <img src="35ec99a3-c54e-40b3-b76e-fa7858811941.jpeg" alt="Création 5">
+  <img src="3bb1696c-da71-41c6-94aa-e58dc6531ddb.jpeg" alt="Création 6">
+  <img src="42974c51-57c5-4591-afd5-426179fb4cce.jpeg" alt="Création 7">
+  <img src="4c426bf5-eec3-4c2e-8a73-4a4dcbb578bb.jpeg" alt="Création 8">
+  <img src="84560663-007d-452e-8c63-6e6238117078.jpeg" alt="Création 9">
+  <img src="ff3d8a0d-2c5e-41bd-86a0-517f81370948.jpeg" alt="Création 10">
+</div>
+
+<!-- Contact -->
+<div class="contact reveal">
+  <a href="https://wa.me/33766748515" target="_blank"><i class="fab fa-whatsapp"></i> Me contacter sur WhatsApp</a>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="close" onclick="closeLightbox()">&times;</span>
+  <img id="lightbox-img" src="">
+</div>
+
+<!-- Bouton retour en haut -->
+<div id="backToTop" onclick="scrollToTop()">↑</div>
+
+<script>
+  // Mode sombre/clair
+  function toggleMode() { document.body.classList.toggle("light"); }
+
+  // Scroll fluide Hero
+  function scrollToSection(event, sectionId) {
+    event.preventDefault();
+    document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Lightbox
+  const images = document.querySelectorAll('.gallery img');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  images.forEach(img => {
+    img.addEventListener('click', () => { lightbox.style.display='flex'; lightboxImg.src=img.src; });
+  });
+  function closeLightbox() { lightbox.style.display='none'; }
+
+  // Reveal au scroll
+  function revealOnScroll() {
+    document.querySelectorAll(".reveal").forEach(el => {
+      let top = el.getBoundingClientRect().top, vh = window.innerHeight;
+      if(top < vh - 100){ el.classList.add("active"); } else { el.classList.remove("active"); }
+    });
+  }
+  window.addEventListener("scroll", revealOnScroll);
+
+  // Bouton retour en haut
+  const backToTop = document.getElementById("backToTop");
+  window.addEventListener("scroll", () => { backToTop.style.display = (window.scrollY>300)?'block':'none'; });
+  function scrollToTop() { window.scrollTo({top:0,behavior:'smooth'}); }
+
+  // Animation barres compétences
+  window.addEventListener("scroll", () => {
+    document.querySelectorAll(".skill-level").forEach(bar=>{
+      let rect = bar.getBoundingClientRect();
+      if(rect.top < window.innerHeight-50){ bar.style.width = bar.getAttribute("style").match(/width:\s*([^;]+)/)[1]; }
+    });
+  });
+</script>
+
 </body>
 </html>
